@@ -1,0 +1,14 @@
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.AssemblyInfoInputs.cache
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.AssemblyInfo.cs
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.csproj.CoreCompileInputs.cache
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\bin\Debug\net7.0\DirectorySync.exe
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\bin\Debug\net7.0\DirectorySync.deps.json
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\bin\Debug\net7.0\DirectorySync.runtimeconfig.json
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\bin\Debug\net7.0\DirectorySync.dll
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\bin\Debug\net7.0\DirectorySync.pdb
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.dll
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\refint\DirectorySync.dll
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.pdb
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\DirectorySync.genruntimeconfig.cache
+C:\Users\Anna Salatska\FolderSynchronizator\Synchronizer\DirectorySync\obj\Debug\net7.0\ref\DirectorySync.dll
