@@ -1,25 +1,12 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace SynchronizationLibrary
 {
-    /// <summary>
-    /// Folders and files synchronization
-    /// </summary>
+    //two folders synchronization class
     public class Sync
     {
         #region CONSTRUCTORS
 
-        /// <summary>
-        /// Initializes a new instance of Synchonizer object.
-        /// </summary>
-        /// <param name="sourceDirectory"></param>
-        /// <param name="destinationDirectory"></param>
         public Sync(string sourceDirectory, string destinationDirectory) 
         {
             this.SourceDirectory = new DirectoryInfo(sourceDirectory);
@@ -30,20 +17,14 @@ namespace SynchronizationLibrary
 
         #region PROPERTIES
 
-        /// <summary>
         /// Set this property to log the synchronization progress by this class to the given delegate. 
-        /// For example, to log to the console, set this property to Console.Write.
-        /// </summary>
+        /// For example, to log to the console, set this property to Console.Writeline
         public virtual Action<string> Log { get; set; }
 
-        /// <summary>
         /// Get or set the source folder to synchronize
-        /// </summary>
         public virtual DirectoryInfo SourceDirectory { get; set; }
 
-        /// <summary>
         /// Get or set the target folder where all files will be synchronized
-        /// </summary>
         public virtual DirectoryInfo DestinationDirectory { get; set; }
 
 
@@ -51,9 +32,7 @@ namespace SynchronizationLibrary
 
         #region METHODS
 
-        /// <summary>
         /// Performs one-way synchronization from source directory tree to destination directory tree
-        /// </summary>
         public virtual SyncResults Start()
         {
             SyncResults results = new SyncResults();
@@ -69,10 +48,7 @@ namespace SynchronizationLibrary
         }
 
 
-        /// <summary>
         /// Robustly deletes a directory including all subdirectories and contents
-        /// </summary>
-        /// <param name="directory"></param>
         public virtual void DeleteDirectory(DirectoryInfo directory)
         {
             // make sure all files are not read-only
@@ -103,12 +79,7 @@ namespace SynchronizationLibrary
             directory.Delete(true);
         }
 
-        /// <summary>
         /// Gets list of files in specified directory
-        /// </summary>
-        /// <param name="directoryInfo"></param>
-        /// <param name="inputParams"></param>
-        /// <param name="results"></param>
         public virtual FileInfo[] GetFiles(DirectoryInfo directoryInfo, ref SyncResults results)
         {
             // get all files
@@ -116,12 +87,7 @@ namespace SynchronizationLibrary
             return fileList.ToArray();
         }
 
-        /// <summary>
         /// Gets list of subdirectories of specified directory, optionally filtered by specified input parameters
-        /// </summary>
-        /// <param name="results"></param>
-        /// <param name="inputParams"></param>
-        /// <param name="directoryInfo"></param>
         public virtual DirectoryInfo[] GetDirectories(DirectoryInfo directoryInfo, ref SyncResults results)
         {
             // get all directories
@@ -129,11 +95,7 @@ namespace SynchronizationLibrary
 
             return directoryList.ToArray();
         }      
-        /// <summary>
-        /// Trace message
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
+        /// Trace message method
         public void Trace(string message, params object[] args)
         {
             if (this.Log != null)
@@ -143,12 +105,7 @@ namespace SynchronizationLibrary
 
         #region PRIVATES
 
-        /// <summary>
-        /// Validate folder
-        /// </summary>
-        /// <param name="destDir"></param>
-        /// <param name="parameters"></param>
-        /// <param name="srcDir"></param>
+        /// Validate source folder and create in case doesn't exist
         private bool Validate(string srcDir, string destDir)
         {
 
@@ -169,13 +126,7 @@ namespace SynchronizationLibrary
             return true;
         }
 
-        /// <summary>
         /// Recursively performs one-way synchronization from a single source to destination directory
-        /// </summary>
-        /// <param name="srcDir"></param>
-        /// <param name="destDir"></param>
-        /// <param name="inputParams"></param>
-        /// <param name="results"></param>
         private bool ProcessDirectory(string srcDir, string destDir, ref SyncResults results)
         {
             DirectoryInfo diSrc = new DirectoryInfo(srcDir);
@@ -267,9 +218,6 @@ namespace SynchronizationLibrary
                 FileInfo srcFile = (FileInfo)hashSrc[destFile.Name];
                 if (srcFile == null)
                 {
-                   
-                    
-
                     try
                     {
 
@@ -329,12 +277,6 @@ namespace SynchronizationLibrary
             
             return true;
         }
-
-
-
-
-
         #endregion
     }
-
 }

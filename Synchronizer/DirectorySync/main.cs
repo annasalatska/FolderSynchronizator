@@ -1,75 +1,95 @@
-﻿using SynchronizationLibrary;
-
-using System;
-using System.Runtime.CompilerServices;
-using System.Threading;
+﻿using System;
+using System.IO;
 using System.Timers;
+
+using SynchronizationLibrary;
 
 namespace Main
 {
-    class Hello
+    class Program
     {
-        //static Timer timer;
-        static bool continueWriting = true;
         static string sourceDir;
-        static public string destinationDir;
-       static  StreamWriter streamWriter;
-        static public Sync syncronize;
-        
+        static string destinationDir;
+        static Sync synchronize;
+
         static void Main(string[] args)
         {
-
+            // Print usage instructions
             PrintUsage();
-            
-            sourceDir = args[0].ToString();
-            destinationDir = args[1].ToString(); 
-            int timeIntervalSync = Convert.ToInt32(args[2]);
-            string logFile = args[3].ToString();
-            if (File.Exists(logFile))
-            {
-                
-                try
-                {
 
-                    //streamWriter = new StreamWriter(logFile, true);
-                }
-                catch(Exception e)
+            if (args.Length != 4)
+            {
+                return;
+            }
+
+            sourceDir = args[0];
+            destinationDir = args[1];
+            int timeIntervalSync;
+
+            if (!int.TryParse(args[2], out timeIntervalSync))
+            {
+                Console.WriteLine("Invalid time interval value.");
+                return;
+            }
+
+            string logFile = args[3];
+
+            // Check if the log file exists or create a new one
+            if (!File.Exists(logFile))
+            {
+                Console.WriteLine("File for logging does not exist. Creating a new one.");
+                File.Create(logFile).Close(); // Close the file stream after creation
+                if (File.Exists(logFile))
                 {
-                    Console.WriteLine("Exception: " + e.ToString() + "arose. It is not possible to open log file for writting.");
+                    Console.WriteLine(logFile, " Log file created.");
+                    File.AppendAllText(logFile, " Log file created.");
+                }
+                else
+                {
+                    Console.WriteLine("Not possible to create the log file.");
+                    return;
                 }
             }
-            else 
-            {
-                Console.WriteLine("File for logging does not exist.");
-                //return false;
-            }
-            
-            syncronize = new Sync(sourceDir, destinationDir);
 
-            syncronize.Log = (string message) => 
-            { 
-                Console.WriteLine(message); 
+            // Call the constructor for the Sync class and assign where traces will be printed
+            InitializeSynchronization(sourceDir, destinationDir, logFile);
+
+            using (System.Timers.Timer updateRepeatedly = new System.Timers.Timer(timeIntervalSync))
+            {
+                updateRepeatedly.Elapsed += UpdateFolders;
+                updateRepeatedly.Start();
+                Console.WriteLine("Press Enter to exit.");
+                Console.ReadLine();
+
+                updateRepeatedly.Stop();
+                updateRepeatedly.Dispose();
+            }
+        }
+
+        static void InitializeSynchronization(string source, string dest, string logFile)
+        {
+            synchronize = new Sync(source, dest);
+
+            synchronize.Log = (string message) =>
+            {
+                Console.WriteLine(message);
                 File.AppendAllText(logFile, message);
-
             };
-            System.Timers.Timer timer1 = new System.Timers.Timer(timeIntervalSync);
-            ElapsedEventHandler elapsedEventHandler = new ElapsedEventHandler(updateFolders);
-            timer1.Elapsed += elapsedEventHandler;
-            timer1.Start();
-
-            Thread.Sleep(100000);
-            timer1.Stop();
-            timer1.Dispose();
-        }
-        static void updateFolders(object sender, ElapsedEventArgs e)
-        {
-            syncronize.Start();
-        }
-        public static void PrintUsage()
-        {
-            Console.WriteLine("Usage: ");
-            Console.WriteLine("SyncronizationLibrary: <source directory tree> <destination directory tree> <time interval to update> <Log file>");
         }
 
+        // Perform synchronization request
+        static void UpdateFolders(object sender, ElapsedEventArgs e)
+        {
+            synchronize.Start();
+        }
+
+        // Print usage instructions 
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("SynchronizationLibrary: <source directory tree> <destination directory tree> <time interval to update> <Log file>");
+            Console.WriteLine("Do not forget to enclose file paths in quotes!");
+            Console.WriteLine("To stop synchronization, please press Enter.");
+        }
     }
 }
